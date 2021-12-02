@@ -1,0 +1,2 @@
+Part 0 information and excercise instructions can be found on:
+https://fullstackopen.com/en/part0/fundamentals_of_web_apps
