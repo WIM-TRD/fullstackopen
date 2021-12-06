@@ -2,13 +2,10 @@ import React, { useState } from 'react'
 
 const Header = ({ title }) => <h1>{title}</h1>
 
-const Information = ({text, value}) => <p>{text} : {value}</p>
+const StatisticLine = ({text, value}) => <p>{text} : {value}</p>
 
-const Button = ({ handleClick, text }) =>(
-  <button onClick={handleClick}>
-    {text}
-  </button>
-)
+const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</button>
+
 
 const Statistics = ({good, neutral, bad}) =>{
 
@@ -33,12 +30,12 @@ const Statistics = ({good, neutral, bad}) =>{
   if (total != 0){
     information = [
       <div>
-        <Information text={"Good"} value={good} />
-        <Information text={"Neutral"} value={neutral} />
-        <Information text={"Bad"} value={bad} />
-        <Information text={"All"} value={total} />
-        <Information text={"Average"} value={calculateAverageScore(good,bad, total)} />
-        <Information text={"Positive"} value={calculatePositiveFeedback(good,total)} />
+        <StatisticLine text={"Good"} value={good} />
+        <StatisticLine text={"Neutral"} value={neutral} />
+        <StatisticLine text={"Bad"} value={bad} />
+        <StatisticLine text={"All"} value={total} />
+        <StatisticLine text={"Average"} value={calculateAverageScore(good,bad, total)} />
+        <StatisticLine text={"Positive"} value={calculatePositiveFeedback(good,total)} />
       </div>
       ]
   }
