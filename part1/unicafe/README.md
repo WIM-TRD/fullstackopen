@@ -2,3 +2,4 @@
 
 The app contains exercises 1.6.-1.14 for part1:
 - 1.6: unicafe step1
+- 1.7: unicafe step2
