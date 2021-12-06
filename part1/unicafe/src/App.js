@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 const Header = ({ title }) => <h1>{title}</h1>
 
-const Statistics = ({text, value}) => <p>{text} : {value}</p>
+const Information = ({text, value}) => <p>{text} : {value}</p>
 
 const Button = ({ handleClick, text }) =>(
   <button onClick={handleClick}>
@@ -10,50 +10,56 @@ const Button = ({ handleClick, text }) =>(
   </button>
 )
 
+const Statistics = ({good, neutral, bad}) =>{
+    const calculateAverageScore = (good, bad, total) => {
+       let ret_val = ((good-bad)/(total))
+       if (isNaN(ret_val)) {
+         ret_val = 0
+       }
+       return ret_val
+    }
+
+    const calculatePositiveFeedback = (good,total) => {
+       let ret_val = (good)/(total)
+
+       if (isNaN(ret_val)) {
+         ret_val = 0
+       }
+       return (ret_val*100) + "%"
+    }
+
+  const total = (good+neutral+bad)
+  return(
+      <div>
+      <Information text={"Good"} value={good} />
+      <Information text={"Neutral"} value={neutral} />
+      <Information text={"Bad"} value={bad} />
+      <Information text={"All"} value={total} />
+      <Information text={"Average"} value={calculateAverageScore(good,bad, total)} />
+      <Information text={"Positive"} value={calculatePositiveFeedback(good,total)} />
+      </div>
+)
+}
 const App = () => {
   const header_welcome = "Please provide feedback for Unicafe."
   const header_statistics = "Statistics"
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-  const [value, setValue] = useState(10)
+
   const incrementValue = (value, setFunction) => {
     setFunction(value+1)
   }
-  const calculateAverageScore = (good, neutral, bad) => {
-     let ret_val = ((good-bad)/(good+neutral+bad))
-     if (isNaN(ret_val)) {
-       ret_val = 0
-     }
-     return ret_val
-  }
-  const calculatePositiveFeedback = (good, neutral, bad) => {
-     let ret_val = (good)/(neutral + bad + good)
-
-     if (isNaN(ret_val)) {
-       ret_val = 0
-     }
-     return (ret_val*100) + "%"
-  }
-  const _good = "Good"
-  const _neutral = "Neutral"
-  const _bad = "Bad"
 
   return (
     <div>
       <Header title = {header_welcome} />
-      <Button handleClick={()=>incrementValue(good, setGood)} text={_good} />
-      <Button handleClick={()=>incrementValue(neutral, setNeutral)} text={_neutral} />
-      <Button handleClick={()=>incrementValue(bad, setBad)} text={_bad} />
+      <Button handleClick={()=>incrementValue(good, setGood)} text={"Good"} />
+      <Button handleClick={()=>incrementValue(neutral, setNeutral)} text={"Neutral"} />
+      <Button handleClick={()=>incrementValue(bad, setBad)} text={"Bad"} />
 
       <Header title = {header_statistics} />
-      <Statistics text={_good} value={good} />
-      <Statistics text={_neutral} value={neutral} />
-      <Statistics text={_bad} value={bad} />
-      <Statistics text={"All"} value={good+neutral+bad} />
-      <Statistics text={"Average"} value={calculateAverageScore(good,neutral,bad)} />
-      <Statistics text={"Positive"} value={calculatePositiveFeedback(good,neutral,bad)} />
-
+      <Statistics good={good} neutral={neutral} bad={bad} />
 
     </div>
   )
