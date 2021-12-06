@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 const Header = ({ title }) => <h1>{title}</h1>
 
-const StatisticLine = ({text, value}) => <p>{text} : {value}</p>
+const StatisticLine = ({text, value}) => <tr><th>{text}</th><th>{value}</th></tr>
 
 const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</button>
 
@@ -27,17 +27,19 @@ const Statistics = ({good, neutral, bad}) =>{
     }
   let information = <p>No Feedback Given (yet ...)</p>
   const total = (good+neutral+bad)
-  if (total != 0){
-    information = [
-      <div>
-        <StatisticLine text={"Good"} value={good} />
-        <StatisticLine text={"Neutral"} value={neutral} />
-        <StatisticLine text={"Bad"} value={bad} />
-        <StatisticLine text={"All"} value={total} />
-        <StatisticLine text={"Average"} value={calculateAverageScore(good,bad, total)} />
-        <StatisticLine text={"Positive"} value={calculatePositiveFeedback(good,total)} />
-      </div>
-      ]
+  if (total !== 0){
+    information =
+      <table>
+        <tbody>
+          <StatisticLine text={"Good"} value={good} />
+          <StatisticLine text={"Neutral"} value={neutral} />
+          <StatisticLine text={"Bad"} value={bad} />
+          <StatisticLine text={"All"} value={total} />
+          <StatisticLine text={"Average"} value={calculateAverageScore(good,bad, total)} />
+          <StatisticLine text={"Positive"} value={calculatePositiveFeedback(good,total)} />
+        </tbody>
+      </table>
+
   }
 
   return(information)
