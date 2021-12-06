@@ -11,7 +11,8 @@ const Button = ({ handleClick, text }) =>(
 )
 
 const Statistics = ({good, neutral, bad}) =>{
-    const calculateAverageScore = (good, bad, total) => {
+
+  const calculateAverageScore = (good, bad, total) => {
        let ret_val = ((good-bad)/(total))
        if (isNaN(ret_val)) {
          ret_val = 0
@@ -19,7 +20,7 @@ const Statistics = ({good, neutral, bad}) =>{
        return ret_val
     }
 
-    const calculatePositiveFeedback = (good,total) => {
+  const calculatePositiveFeedback = (good,total) => {
        let ret_val = (good)/(total)
 
        if (isNaN(ret_val)) {
@@ -27,18 +28,22 @@ const Statistics = ({good, neutral, bad}) =>{
        }
        return (ret_val*100) + "%"
     }
-
+  let information = <p>No Feedback Given (yet ...)</p>
   const total = (good+neutral+bad)
-  return(
+  if (total != 0){
+    information = [
       <div>
-      <Information text={"Good"} value={good} />
-      <Information text={"Neutral"} value={neutral} />
-      <Information text={"Bad"} value={bad} />
-      <Information text={"All"} value={total} />
-      <Information text={"Average"} value={calculateAverageScore(good,bad, total)} />
-      <Information text={"Positive"} value={calculatePositiveFeedback(good,total)} />
+        <Information text={"Good"} value={good} />
+        <Information text={"Neutral"} value={neutral} />
+        <Information text={"Bad"} value={bad} />
+        <Information text={"All"} value={total} />
+        <Information text={"Average"} value={calculateAverageScore(good,bad, total)} />
+        <Information text={"Positive"} value={calculatePositiveFeedback(good,total)} />
       </div>
-)
+      ]
+  }
+
+  return(information)
 }
 const App = () => {
   const header_welcome = "Please provide feedback for Unicafe."
