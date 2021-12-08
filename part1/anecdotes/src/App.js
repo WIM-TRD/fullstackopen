@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 
 const Header = ({header}) => <h1>{header}</h1>
 const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</button>
-const Information = ({score}) => <p>Votes: {score}</p>
+const VoteInformation = ({score}) => <p>Votes: {score}</p>
+
 
 const App = () => {
-
+  
+  const [mostVotedAnecdote, setMostVotedAnecdote] = useState(["No anecdote with max score yet.", 0])
   const [anecdotes, setAnecdotes] = useState([
     {anecdote:'If it hurts, do it more often', score:0},
     {anecdote:'Adding manpower to a late software project makes it later!', score:0},
@@ -21,12 +23,15 @@ const App = () => {
     setFunction(rand)
   }
 
-  const incrementVote = (selected, setFunction) => {
+  const incrementVote = (selected, setFunction, setMaxFunction) => {
     let ret_array = [...anecdotes]
-    ret_array[selected].score += 1
+    const score = ret_array[selected].score + 1
+    ret_array[selected].score = score
+    if (score > mostVotedAnecdote[1]) {
+      setMaxFunction([ret_array[selected].anecdote, ret_array[selected].score])
+    }
     setFunction(ret_array)
   }
-
 
   const anecdotes_length = anecdotes.length
   const [selected, setSelected] = useState(0)
@@ -34,11 +39,11 @@ const App = () => {
   return (
     <div>
       <Header header={anecdotes[selected].anecdote} />
-      <Information score={anecdotes[selected].score} />
+      <VoteInformation score={anecdotes[selected].score} />
       <Button handleClick={()=>randomValue(setSelected, anecdotes_length)} text={"Next Anecdote"} />
-      <Button handleClick={()=>incrementVote(selected, setAnecdotes)} text={"Vote"} />
-
-
+      <Button handleClick={()=>incrementVote(selected, setAnecdotes, setMostVotedAnecdote)} text={"Vote"} />
+      <Header header={mostVotedAnecdote[0]} />
+      <VoteInformation score={mostVotedAnecdote[1]} />
   </div>
   )
 }
